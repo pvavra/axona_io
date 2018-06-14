@@ -102,10 +102,12 @@ function output = convertToNumber(inputString)
 % converts `inputString` into a number if it possible, otherwise returns
 % the original string
 
-% try to convert
-[converted, succeeded] = str2num(inputString);
-if succeeded
-    output = converted;
+% check whether only white-space or digits present in input string
+indices = regexp(inputString ,'[\s\d]'); % return all indices of digits/whitespace
+toConvert = isequal((1:length(inputString)),indices);
+
+if toConvert  
+    output = str2num(inputString);
 else
     output = inputString;
 end

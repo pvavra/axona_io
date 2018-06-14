@@ -46,7 +46,7 @@ frewind(f); % go back to start of file
 
 % read in header and data
 %--------------------------------------------------------------------------
-headerString = fread(f, startData-1, 'uint8=>char')';
+headerString = fread(f, startData-1, 'uint8=>char')'
 % to read in data, we need to advance by the length of the DATA_START_TOKEN
 fseek(f, startData + length(DATA_START_TOKEN) -1,'bof'); % relative to start of file
 rawBinaryData = fread(f, endData-startData-length(DATA_START_TOKEN), '*int8'); % read data in as bytes
@@ -60,6 +60,10 @@ header = cell2struct(cell_array{2},cell_array{1});
 % above didn't convert them into numbers
 header.timebase = convertToNumber(header.timebase(1:(end-3))); % remove ' hz' from the end
 header.sample_rate = convertToNumber(header.sample_rate(1:(end-3))); % remove ' hz' from the end
+
+header.duration
+
+header.trial_time = (header.trial_time)
 
 % convert extract timestamps and waveforms from binary data
 %--------------------------------------------------------------------------
@@ -93,10 +97,12 @@ function output = convertToNumber(inputString)
 % converts `inputString` into a number if it possible, otherwise returns
 % the original string
 
-% try to convert
-[converted, succeeded] = str2num(inputString);
-if succeeded
-    output = converted;
+% check whether only white-space or digits present in input string
+indices = regexp(inputString ,'[\s\d]'); % return all indices of digits/whitespace
+toConvert = isequal((1:length(inputString)),indices);
+
+if toConvert  
+    output = str2num(inputString);
 else
     output = inputString;
 end
