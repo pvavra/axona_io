@@ -2,23 +2,28 @@ function [header,timestamps, waveforms] = read_tetrode_file(filename)
 % READ_TETRODE_FILE reads a AXONA tetrode data file into MATLAB.
 %
 % Input:
-%     filename    ... String. Filename, typically ending in ".1", up to ".32"
-%                            (see below and DACQ file format documentation)
+%     filename    ... String. Filename, typically ending in ".1", up to
+%                     ".32" (see below and DACQ file format documentation)
 %
 % Output:
-%     header      ... struct. Structure containing key-value pairs from the header section of the tetrode file.
-%     timestamps  ... double [nSpikes x 1] Array. Timestamps in seconds of when the spikes happened.
-%     waveforms   ... int8 [nSpike x 50 x 4] Array. These are the waveforms of each spikes.
+%     header      ... Struct. Structure containing key-value pairs from the
+%                     header section of the tetrode file. 
+%
+%     timestamps  ... Double [nSpikes x %     1] Array. Timestamps in
+%                     seconds of when the spikes happened.
+%
+%     waveforms   ... Int8 [nSpike x 50 x 4] Array. These are the waveforms
+%                     of each spikes.
 %
 % From the DACQ file format documentation:
 %
 % Tetrode files have a header section and a data-section. The data is
-% wrapped by `data_start` and `data_end`. The header is a
-% simple list of 'key value' pairs (one per row). In Unit mode (assumed in
-% this script), data is stored in 1ms chunks [-200us prior to 800us post
-% event]. There are 54bytes per spike (4 bytes timestamp, then 50 8-bit
-% samples). The header's timebase (usually 96kHz) is the value by which the
-% timestamps need to be divided to get the timestamp in seconds.
+% wrapped by 'data_start' and 'data_end'. The header is a simple list of
+% 'key value' pairs (one per row). In Unit mode (assumed in this script),
+% data is stored in 1ms chunks [-200us prior to 800us post event]. There
+% are 54bytes per spike (4 bytes timestamp, then 50 8-bit samples). The
+% header's timebase (usually 96kHz) is the value by which the timestamps
+% need to be divided to get the timestamp in seconds.
 %
 % see also: WRITE_TETRODE_FILE
 
