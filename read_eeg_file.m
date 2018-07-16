@@ -48,9 +48,8 @@ frewind(f); % go back to start of file
 headerString = fread(f, startData-1, 'uint8=>char')';
 % to read in data, we need to advance by the length of the DATA_START_TOKEN
 fseek(f, startData + length(DATA_START_TOKEN) -1,'bof'); % relative to start of file
-tic
 rawBinaryData = fread(f, endData-startData-length(DATA_START_TOKEN), '*uint8'); % read data in as bytes
-toc
+
 
 % convert header
 %--------------------------------------------------------------------------
